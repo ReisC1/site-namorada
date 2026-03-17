@@ -20,7 +20,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -1; /* fica atrás de tudo */
+    z-index: -1; /* atrás de tudo */
 }
 
 /* --- Sobreposição escura --- */
@@ -29,7 +29,7 @@ body {
     top:0; left:0;
     width:100%; height:100%;
     background: rgba(0,0,0,0.4);
-    z-index: 0; /* acima do vídeo, mas abaixo do conteúdo */
+    z-index: 0;
 }
 
 /* --- Conteúdo --- */
@@ -82,7 +82,7 @@ button:hover {
 
 <!-- Vídeo de fundo -->
 <video autoplay muted loop id="videoFundo">
-  <source src="video dormindo 1.mp4" type="video/mp4">
+  <source src="videos/video_dormindo_1.mp4" type="video/mp4">
   Seu navegador não suporta vídeo.
 </video>
 
@@ -91,8 +91,7 @@ button:hover {
 
 <!-- Conteúdo -->
 <div id="conteudo">
-  <h1>Eu te amo meu amor, queria fazer algo 
-      para ficar marcado para sempre</h1>
+  <h1>Eu te amo meu amor ❤️</h1>
   <p>Esse site é para lembrar o quanto você é especial pra mim.</p>
   <p>Nos conhecemos em 20/10/2024</p>
   <img src="foto.jpeg" alt="Foto do casal" style="width:280px; border-radius:20px; box-shadow:0 0 15px black; margin-top:20px; opacity:0; transition:opacity 2s ease 1.5s;">
@@ -116,9 +115,9 @@ button:hover {
   </div>
 </div>
 
-<!-- Música de fundo (opcional) -->
+<!-- Música de fundo (YouTube em loop mudo para autoplay) -->
 <iframe width="0" height="0"
-src="https://youtu.be/rtOvBOTyX00?si=HCO9zbOxOPGKYmiO"
+src="https://www.youtube.com/embed/rtOvBOTyX00?autoplay=1&mute=1&loop=1&playlist=rtOvBOTyX00"
 frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 <script>
@@ -160,8 +159,7 @@ setInterval(criarCoracao,300);
 const categorias={
     "Nossas fotos que mais amo":["foto normal 1.jpeg","foto normal 2.jpeg","foto normal 3.jpeg","foto normal 4.jpeg","foto normal 5.jpeg","foto normal 6.jpeg","foto normal 7.jpeg","foto normal 8.jpeg","foto normal 9.jpeg","foto normal 10.jpeg","foto normal 11.jpeg"],
     "Suas fotos engraçadas que mais amo":["foto zoada 1.jpeg","foto zoada 2.jpeg","foto zoada 3.jpeg","foto zoada 4.jpeg","foto zoada 5.jpeg"],
-    "Eu amo estas fotos suas":["foto dela 1.jpeg","foto dela 2.jpeg","foto dela 3.jpeg","foto dela 4.jpeg","foto dela 5.jpeg","foto dela 6.jpeg"],
-  
+    "Eu amo estas fotos suas":["foto dela 1.jpeg","foto dela 2.jpeg","foto dela 3.jpeg","foto dela 4.jpeg","foto dela 5.jpeg","foto dela 6.jpeg"]
 };
 
 const categoriasDiv=document.getElementById("categorias");
