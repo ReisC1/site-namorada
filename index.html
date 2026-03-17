@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <title>Para o Amor da Minha Vida ❤️</title>
 <style>
+/* --- Reset / Geral --- */
 body {
     margin:0;
     font-family: 'Arial', sans-serif;
-    text-align:center;
     color:white;
     overflow-x:hidden;
 }
 
-/* Vídeo de fundo */
+/* --- Vídeo de fundo --- */
 #videoFundo {
     position: fixed;
     top: 0;
@@ -20,23 +20,23 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: 0;
+    z-index: -1; /* fica atrás de tudo */
 }
 
-/* Sobreposição escura */
-body::before {
-    content: "";
+/* --- Sobreposição escura --- */
+#overlay {
     position: fixed;
     top:0; left:0;
     width:100%; height:100%;
     background: rgba(0,0,0,0.4);
-    z-index:1;
+    z-index: 0; /* acima do vídeo, mas abaixo do conteúdo */
 }
 
-/* Conteúdo acima do vídeo */
-body > *:not(#videoFundo) {
+/* --- Conteúdo --- */
+#conteudo {
     position: relative;
-    z-index:2;
+    z-index: 1;
+    text-align:center;
 }
 
 /* Cabeçalho */
@@ -46,7 +46,7 @@ p { font-size:24px; opacity:0; transition: opacity 2s ease 0.5s; }
 /* Contador */
 #contador { font-size:35px; margin-top:20px; opacity:0; transition: opacity 2s ease 1s; }
 
-/* Linha do tempo */
+/* Timeline */
 .timeline { margin: 40px auto; max-width:600px; text-align:left; }
 .timeline .event { background: rgba(255,228,230,0.6); margin:10px 0; padding:15px; border-radius:15px; }
 
@@ -62,14 +62,18 @@ button {
     cursor: pointer;
     transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
 }
-button:hover { background: rgba(255,111,145,0.9); transform: scale(1.1); box-shadow: 0 0 10px #ff6f91; }
+button:hover {
+    background: rgba(255,111,145,0.9);
+    transform: scale(1.1);
+    box-shadow: 0 0 10px #ff6f91;
+}
 
 /* Galeria */
 .fotoContainer { display: none; margin-top: 20px; }
 .fotoContainer img { width: 80%; max-width: 500px; border-radius: 15px; box-shadow: 0 0 15px black; margin: 10px; opacity:0; transition: opacity 0.8s ease; }
 #voltarBtn { display:block; margin:20px auto; }
 
-/* Corações */
+/* Corações caindo */
 .heart{ position:fixed; top:-10px; font-size:20px; animation:cair linear infinite; }
 @keyframes cair{ 0%{transform:translateY(0);} 100%{transform:translateY(100vh);} }
 </style>
@@ -78,32 +82,46 @@ button:hover { background: rgba(255,111,145,0.9); transform: scale(1.1); box-sha
 
 <!-- Vídeo de fundo -->
 <video autoplay muted loop id="videoFundo">
-  <source src="video dormindo 1.mp4" type="video/mp4">
+  <source src="videos/nosso_amor.mp4" type="video/mp4">
   Seu navegador não suporta vídeo.
 </video>
 
-<h1>Eu te amo ❤️</h1>
-<p>Esse site é para lembrar o quanto você é especial pra mim.</p>
-<p>Nos conhecemos em 20/10/2024</p>
-<img src="foto.jpeg" alt="Foto do casal" style="width:280px; border-radius:20px; box-shadow:0 0 15px black; margin-top:20px; opacity:0; transition:opacity 2s ease 1.5s;">
+<!-- Sobreposição -->
+<div id="overlay"></div>
 
-<p>Estamos juntos há:</p>
-<div id="contador"></div>
+<!-- Conteúdo -->
+<div id="conteudo">
+  <h1>Eu te amo ❤️</h1>
+  <p>Esse site é para lembrar o quanto você é especial pra mim.</p>
+  <p>Nos conhecemos em 20/10/2024</p>
+  <img src="foto.jpeg" alt="Foto do casal" style="width:280px; border-radius:20px; box-shadow:0 0 15px black; margin-top:20px; opacity:0; transition:opacity 2s ease 1.5s;">
 
-<div class="timeline">
-  <div class="event"><h3>20/10/2024</h3><p>Nos conhecemos 💖</p></div>
-  <div class="event"><h3>31/12/2024</h3><p>Pedi em namoro 😍</p></div>
+  <p>Estamos juntos há:</p>
+  <div id="contador"></div>
+
+  <!-- Timeline -->
+  <div class="timeline">
+    <div class="event"><h3>20/10/2024</h3><p>Nos conhecemos 💖</p></div>
+    <div class="event"><h3>31/12/2024</h3><p>Pedi em namoro 😍</p></div>
+  </div>
+
+  <!-- Botões de categorias -->
+  <div id="categorias"></div>
+
+  <!-- Galeria -->
+  <div id="fotoContainer" class="fotoContainer">
+      <div id="fotosGaleria"></div>
+      <button id="voltarBtn">Voltar 💖</button>
+  </div>
 </div>
 
-<div id="categorias"></div>
-
-<div id="fotoContainer" class="fotoContainer">
-    <div id="fotosGaleria"></div>
-    <button id="voltarBtn">Voltar 💖</button>
-</div>
+<!-- Música de fundo (opcional) -->
+<iframe width="0" height="0"
+src="https://www.youtube.com/embed/rtOvBOTyX00?autoplay=1&mute=1"
+frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 <script>
-// Contador
+// Contador de dias juntos
 const dataInicio = new Date("2024-12-31");
 function atualizarContador(){
     const agora = new Date();
@@ -125,7 +143,7 @@ window.onload = ()=>{
     document.querySelector('img').style.opacity=1;
 }
 
-// Corações
+// Corações caindo
 function criarCoracao(){
     const coracao=document.createElement("div");
     coracao.classList.add("heart");
@@ -137,7 +155,7 @@ function criarCoracao(){
 }
 setInterval(criarCoracao,300);
 
-// Categorias
+// Categorias de fotos
 const categorias={
     "Nossas fotos que mais amo":["foto normal 1.jpeg","foto normal 2.jpeg"],
     "Suas fotos engraçadas que mais amo":["foto zoada 1.jpeg","foto zoada 2.jpeg"],
