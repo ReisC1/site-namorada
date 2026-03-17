@@ -2,18 +2,55 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Galeria do Nosso Amor ❤️</title>
+<title>Para o Amor da Minha Vida ❤️</title>
 <style>
+/* --- Estilo Geral --- */
 body {
     margin:0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(#ff9a9e,#fad0c4);
+    font-family: 'Arial', sans-serif;
     text-align:center;
     color:#b30059;
     overflow-x:hidden;
+    background: linear-gradient(135deg, #ffe4e6 0%, #ffd6db 100%);
+    transition: background 2s ease;
 }
 
-/* Botões */
+/* --- Cabeçalho --- */
+h1 {
+    font-size:55px;
+    margin-top:40px;
+    opacity:0;
+    transition: opacity 2s ease;
+}
+p {
+    font-size:24px;
+    opacity:0;
+    transition: opacity 2s ease 0.5s;
+}
+
+/* --- Contador --- */
+#contador {
+    font-size:35px;
+    margin-top:20px;
+    opacity:0;
+    transition: opacity 2s ease 1s;
+}
+
+/* --- Linha do tempo --- */
+.timeline {
+    margin: 40px auto;
+    max-width:600px;
+    text-align:left;
+}
+.timeline .event {
+    background:#ffe4e6;
+    margin:10px 0;
+    padding:15px;
+    border-radius:15px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+/* --- Botões --- */
 button {
     background: #ff9aa2;
     color: white;
@@ -23,21 +60,19 @@ button {
     font-size: 18px;
     border-radius: 10px;
     cursor: pointer;
-    transition: transform 0.3s, background 0.3s;
+    transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
 }
-
 button:hover {
     background: #ff6f91;
     transform: scale(1.1);
     box-shadow: 0 0 10px #ff6f91;
 }
 
-/* Galeria */
+/* --- Galeria --- */
 .fotoContainer {
-    display: none; /* Escondida por padrão */
+    display: none;
     margin-top: 20px;
 }
-
 .fotoContainer img {
     width: 80%;
     max-width: 500px;
@@ -47,77 +82,138 @@ button:hover {
     opacity:0;
     transition: opacity 0.8s ease;
 }
-
-/* Botão voltar */
 #voltarBtn {
-    display: block;
-    margin: 20px auto;
+    display:block;
+    margin:20px auto;
+}
+
+/* --- Corações caindo --- */
+.heart{
+    position:fixed;
+    top:-10px;
+    font-size:20px;
+    animation:cair linear infinite;
+}
+@keyframes cair{
+    0%{transform:translateY(0);}
+    100%{transform:translateY(100vh);}
 }
 </style>
 </head>
 
 <body>
-<h1>Galeria do Nosso Amor ❤️</h1>
-<p>Clique em uma categoria para ver nossas fotos!</p>
 
-<!-- Botões das categorias -->
-<div id="categorias">
-  <!-- Serão gerados pelo JS -->
+<!-- --- Cabeçalho --- -->
+<h1>Eu te amo ❤️</h1>
+<p>Esse site é para lembrar o quanto você é especial pra mim.</p>
+<p>Nos conhecemos em 20/10/2024</p>
+<img src="foto.jpeg" alt="Foto do casal" style="width:280px; border-radius:20px; box-shadow:0 0 15px black; margin-top:20px; opacity:0; transition:opacity 2s ease 1.5s;">
+
+<!-- --- Contador --- -->
+<p>Estamos juntos há:</p>
+<div id="contador"></div>
+
+<!-- --- Linha do tempo --- -->
+<div class="timeline">
+  <div class="event">
+    <h3>20/10/2024</h3>
+    <p>Nos conhecemos 💖</p>
+  </div>
+  <div class="event">
+    <h3>31/12/2024</h3>
+    <p>Pedi em namoro 😍</p>
+  </div>
 </div>
 
-<!-- Container para exibir as fotos -->
+<!-- --- Botões de categorias --- -->
+<div id="categorias">
+  <!-- Criados pelo JS -->
+</div>
+
+<!-- --- Container de fotos --- -->
 <div id="fotoContainer" class="fotoContainer">
     <div id="fotosGaleria"></div>
     <button id="voltarBtn">Voltar 💖</button>
 </div>
 
+<!-- --- Música de fundo (opcional) --- -->
+<iframe width="0" height="0"
+src="https://www.youtube.com/embed/rtOvBOTyX00?autoplay=1&mute=1"
+frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
 <script>
-// Definindo categorias e fotos (edite os nomes das fotos)
+// --- Contador de dias juntos ---
+const dataInicio = new Date("2024-12-31");
+function atualizarContador(){
+    const agora = new Date();
+    let diff = agora - dataInicio;
+    if(diff < 0) diff = 0; // evita negativo
+    const dias = Math.floor(diff / (1000*60*60*24));
+    const contador = document.getElementById("contador");
+    contador.innerHTML = dias + " dias juntos 💖";
+    contador.style.opacity = 1;
+}
+setInterval(atualizarContador, 1000);
+atualizarContador();
+
+// --- Animação inicial dos elementos ---
+window.onload = () => {
+    document.querySelector('h1').style.opacity = 1;
+    const ps = document.querySelectorAll('p');
+    ps.forEach(p => p.style.opacity = 1);
+    document.querySelector('img').style.opacity = 1;
+}
+
+// --- Corações caindo ---
+function criarCoracao(){
+    const coracao = document.createElement("div");
+    coracao.classList.add("heart");
+    coracao.innerHTML = "❤️";
+    coracao.style.left = Math.random()*100+"vw";
+    coracao.style.animationDuration=(Math.random()*3+2)+"s";
+    document.body.appendChild(coracao);
+    setTimeout(()=>{ coracao.remove() },5000);
+}
+setInterval(criarCoracao,300);
+
+// --- Categorias de fotos ---
 const categorias = {
-    "Encontros": ["encontro1.jpeg", "encontro2.jpeg", "encontro3.jpeg"],
-    "Viagens": ["viagem1.jpeg", "viagem2.jpeg", "viagem3.jpeg"],
-    "Datas Especiais": ["especial1.jpeg", "especial2.jpeg"],
-    "Momentos Divertidos": ["divertido1.jpeg", "divertido2.jpeg", "divertido3.jpeg"],
-    "Surpresas": ["surpresa1.jpeg", "surpresa2.jpeg"]
+    "Nossas fotos que mais amo ": ["foto normal 1.jpeg","foto normal 2.jpeg","foto normal 3.jpeg","foto normal 4.jpeg","foto normal 5.jpeg","foto normal 6.jpeg","foto normal 7.jpeg","foto normal 8.jpeg","foto normal 9.jpeg","foto normal 10.jpeg","foto nromal 11.jpeg"],
+    "Suas fotos engraçadas que mais amo": ["foto zoada 1.jpeg","foto zoada 2.jpeg","foto zoada 3.jpeg","foto zoada 4.jpeg","foto zoada 5.jpeg"],
+    "Datas Especiais": ["especial1.jpeg","especial2.jpeg"],
+    "Momentos Divertidos": ["divertido1.jpeg","divertido2.jpeg"],
+    "Surpresas": ["surpresa1.jpeg","surpresa2.jpeg"]
 };
 
-// Criar botões das categorias dinamicamente
 const categoriasDiv = document.getElementById("categorias");
-Object.keys(categorias).forEach((catName) => {
+Object.keys(categorias).forEach(catName => {
     const btn = document.createElement("button");
     btn.innerText = catName;
-    btn.addEventListener("click", () => {
-        mostrarCategoria(catName);
-    });
+    btn.addEventListener("click", ()=> mostrarCategoria(catName));
     categoriasDiv.appendChild(btn);
 });
 
-// Função para mostrar a galeria de uma categoria
 function mostrarCategoria(nome){
     const galeriaDiv = document.getElementById("fotosGaleria");
-    galeriaDiv.innerHTML = ""; // Limpar fotos anteriores
-
-    categorias[nome].forEach((foto) => {
+    galeriaDiv.innerHTML = "";
+    categorias[nome].forEach(foto=>{
         const img = document.createElement("img");
         img.src = foto;
         galeriaDiv.appendChild(img);
-        setTimeout(()=>{ img.style.opacity = 1; }, 50);
+        setTimeout(()=>{ img.style.opacity=1; },50);
     });
-
-    document.getElementById("categorias").style.display = "none";
-    document.getElementById("fotoContainer").style.display = "block";
+    document.getElementById("categorias").style.display="none";
+    document.getElementById("fotoContainer").style.display="block";
 }
 
-// Botão voltar
-document.getElementById("voltarBtn").addEventListener("click", () => {
+document.getElementById("voltarBtn").addEventListener("click",()=>{
     const galeriaDiv = document.getElementById("fotosGaleria");
-    galeriaDiv.querySelectorAll("img").forEach(img => img.style.opacity = 0);
+    galeriaDiv.querySelectorAll("img").forEach(img=>img.style.opacity=0);
     setTimeout(()=>{
-        document.getElementById("fotoContainer").style.display = "none";
-        document.getElementById("categorias").style.display = "block";
-    }, 300);
+        document.getElementById("fotoContainer").style.display="none";
+        document.getElementById("categorias").style.display="block";
+    },300);
 });
 </script>
-
 </body>
 </html>
