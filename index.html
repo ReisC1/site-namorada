@@ -1,126 +1,113 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
 <meta charset="UTF-8">
-<title>Para o Amor da Minha Vida ❤️</title>
-
+<title>Galeria do Nosso Amor ❤️</title>
 <style>
-body{
+body {
     margin:0;
-    font-family: Arial;
-    background: linear-gradient(#000000,#9400D3);
+    font-family: Arial, sans-serif;
+    background: linear-gradient(#ff9a9e,#fad0c4);
     text-align:center;
-    color:red;
-    overflow:hidden;
-    transition: background 2s ease;
+    color:#b30059;
+    overflow-x:hidden;
 }
 
-.container{
-    margin-top:100px;
+/* Botões */
+button {
+    background: #ff9aa2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s;
 }
 
-h1{
-    font-size:55px;
+button:hover {
+    background: #ff6f91;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px #ff6f91;
+}
+
+/* Fotos */
+.fotoContainer {
+    display: none; /* Escondida por padrão */
+    margin-top: 20px;
+}
+
+.fotoContainer img {
+    width: 80%;
+    max-width: 500px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px black;
     opacity:0;
-    transition: opacity 2s ease;
+    transition: opacity 0.8s ease;
 }
 
-p{
-    font-size:24px;
-    opacity:0;
-    transition: opacity 2s ease 0.5s;
-}
-
-#contador{
-    font-size:35px;
-    margin-top:20px;
-    opacity:0;
-    transition: opacity 2s ease 1s;
-}
-
-img{
-    width:280px;
-    border-radius:20px;
-    box-shadow:0 0 15px black;
-    margin-top:20px;
-    opacity:0;
-    transition: opacity 2s ease 1.5s;
-}
-
-.heart{
-    position:fixed;
-    top:-10px;
-    font-size:20px;
-    animation:cair linear infinite;
-}
-
-@keyframes cair{
-    0%{transform:translateY(0);}
-    100%{transform:translateY(100vh);}
+/* Botão voltar */
+#voltarBtn {
+    display: block;
+    margin: 20px auto;
 }
 </style>
 </head>
 
 <body>
 
-<iframe width="0" height="0"
-src="https://www.youtube.com/watch?v=rtOvBOTyX00"
-frameborder="0"
-allow="autoplay; encrypted-media">
-</iframe>
+<h1>Galeria do Nosso Amor ❤️</h1>
+<p>Clique nos botões para ver nossas fotos!</p>
 
-<div class="container">
-<h1>Eu te amo ❤️</h1>
-<p>Esse site é só para lembrar o quanto você é especial pra mim.</p>
-<p>Nos conhecemos em 20/10/2024</p>
-<img src="foto.jpeg" alt="Foto do casal">
+<!-- Botões das 21 fotos -->
+<div id="botoes">
+  <!-- Os botões serão gerados automaticamente pelo JS -->
+</div>
 
-<p>Estamos juntos há:</p>
-<div id="contador"></div>
+<!-- Container para exibir a foto -->
+<div id="fotoContainer" class="fotoContainer">
+    <img id="fotoGrande" src="" alt="Foto do casal">
+    <button id="voltarBtn">Voltar 💖</button>
 </div>
 
 <script>
-// Data de início do namoro
-const dataInicio = new Date("2024-12-31");
-
-function atualizarContador(){
-    const agora = new Date();
-    let diff = agora - dataInicio;
-    if(diff < 0) diff = 0; // evita número negativo
-
-    const dias = Math.floor(diff / (1000*60*60*24));
-
-    const contador = document.getElementById("contador");
-    contador.innerHTML = dias + " dias juntos 💖";
-    contador.style.opacity = 1; // faz aparecer suavemente
+// Array com os nomes das fotos (substitua com os nomes reais)
+const fotos = [];
+for(let i=1; i<=21; i++){
+    fotos.push(`foto${i}.jpeg`);
 }
 
-// Animação inicial dos elementos
-window.onload = () => {
-    document.querySelector('h1').style.opacity = 1;
-    const ps = document.querySelectorAll('p');
-    ps.forEach(p => p.style.opacity = 1);
-    document.querySelector('img').style.opacity = 1;
+// Criar os botões dinamicamente
+const botoesDiv = document.getElementById("botoes");
+fotos.forEach((foto, index) => {
+    const btn = document.createElement("button");
+    btn.innerText = `Foto ${index+1}`;
+    btn.addEventListener("click", () => {
+        mostrarFoto(index);
+    });
+    botoesDiv.appendChild(btn);
+});
+
+// Função para mostrar a foto
+function mostrarFoto(index){
+    document.getElementById("fotoGrande").src = fotos[index];
+    document.getElementById("botoes").style.display = "none";
+    const container = document.getElementById("fotoContainer");
+    container.style.display = "block";
+    // Fade-in da foto
+    setTimeout(()=>{ document.getElementById("fotoGrande").style.opacity = 1; }, 50);
 }
 
-setInterval(atualizarContador, 1000);
-atualizarContador();
-
-function criarCoracao(){
-    const coracao = document.createElement("div");
-    coracao.classList.add("heart");
-    coracao.innerHTML = "❤️";
-    coracao.style.left = Math.random()*100 + "vw";
-    coracao.style.animationDuration = (Math.random()*3+2) + "s";
-    document.body.appendChild(coracao);
-
+// Botão voltar
+document.getElementById("voltarBtn").addEventListener("click", () => {
+    const img = document.getElementById("fotoGrande");
+    img.style.opacity = 0; // fade-out
     setTimeout(()=>{
-        coracao.remove()
-    },5000);
-}
-
-setInterval(criarCoracao, 300);
+        document.getElementById("fotoContainer").style.display = "none";
+        document.getElementById("botoes").style.display = "block";
+    }, 300);
+});
 </script>
 
 </body>
