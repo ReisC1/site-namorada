@@ -18,9 +18,9 @@ button {
     background: #ff9aa2;
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 10px 20px;
     margin: 5px;
-    font-size: 16px;
+    font-size: 18px;
     border-radius: 10px;
     cursor: pointer;
     transition: transform 0.3s, background 0.3s;
@@ -32,7 +32,7 @@ button:hover {
     box-shadow: 0 0 10px #ff6f91;
 }
 
-/* Fotos */
+/* Galeria */
 .fotoContainer {
     display: none; /* Escondida por padrão */
     margin-top: 20px;
@@ -43,6 +43,7 @@ button:hover {
     max-width: 500px;
     border-radius: 15px;
     box-shadow: 0 0 15px black;
+    margin: 10px;
     opacity:0;
     transition: opacity 0.8s ease;
 }
@@ -56,56 +57,64 @@ button:hover {
 </head>
 
 <body>
-
 <h1>Galeria do Nosso Amor ❤️</h1>
-<p>Clique nos botões para ver nossas fotos!</p>
+<p>Clique em uma categoria para ver nossas fotos!</p>
 
-<!-- Botões das 21 fotos -->
-<div id="botoes">
-  <!-- Os botões serão gerados automaticamente pelo JS -->
+<!-- Botões das categorias -->
+<div id="categorias">
+  <!-- Serão gerados pelo JS -->
 </div>
 
-<!-- Container para exibir a foto -->
+<!-- Container para exibir as fotos -->
 <div id="fotoContainer" class="fotoContainer">
-    <img id="fotoGrande" src="" alt="Foto do casal">
+    <div id="fotosGaleria"></div>
     <button id="voltarBtn">Voltar 💖</button>
 </div>
 
 <script>
-// Array com os nomes das fotos (substitua com os nomes reais)
-const fotos = [];
-for(let i=1; i<=21; i++){
-    fotos.push(`foto${i}.jpeg`);
-}
+// Definindo categorias e fotos (edite os nomes das fotos)
+const categorias = {
+    "Encontros": ["encontro1.jpeg", "encontro2.jpeg", "encontro3.jpeg"],
+    "Viagens": ["viagem1.jpeg", "viagem2.jpeg", "viagem3.jpeg"],
+    "Datas Especiais": ["especial1.jpeg", "especial2.jpeg"],
+    "Momentos Divertidos": ["divertido1.jpeg", "divertido2.jpeg", "divertido3.jpeg"],
+    "Surpresas": ["surpresa1.jpeg", "surpresa2.jpeg"]
+};
 
-// Criar os botões dinamicamente
-const botoesDiv = document.getElementById("botoes");
-fotos.forEach((foto, index) => {
+// Criar botões das categorias dinamicamente
+const categoriasDiv = document.getElementById("categorias");
+Object.keys(categorias).forEach((catName) => {
     const btn = document.createElement("button");
-    btn.innerText = `Foto ${index+1}`;
+    btn.innerText = catName;
     btn.addEventListener("click", () => {
-        mostrarFoto(index);
+        mostrarCategoria(catName);
     });
-    botoesDiv.appendChild(btn);
+    categoriasDiv.appendChild(btn);
 });
 
-// Função para mostrar a foto
-function mostrarFoto(index){
-    document.getElementById("fotoGrande").src = fotos[index];
-    document.getElementById("botoes").style.display = "none";
-    const container = document.getElementById("fotoContainer");
-    container.style.display = "block";
-    // Fade-in da foto
-    setTimeout(()=>{ document.getElementById("fotoGrande").style.opacity = 1; }, 50);
+// Função para mostrar a galeria de uma categoria
+function mostrarCategoria(nome){
+    const galeriaDiv = document.getElementById("fotosGaleria");
+    galeriaDiv.innerHTML = ""; // Limpar fotos anteriores
+
+    categorias[nome].forEach((foto) => {
+        const img = document.createElement("img");
+        img.src = foto;
+        galeriaDiv.appendChild(img);
+        setTimeout(()=>{ img.style.opacity = 1; }, 50);
+    });
+
+    document.getElementById("categorias").style.display = "none";
+    document.getElementById("fotoContainer").style.display = "block";
 }
 
 // Botão voltar
 document.getElementById("voltarBtn").addEventListener("click", () => {
-    const img = document.getElementById("fotoGrande");
-    img.style.opacity = 0; // fade-out
+    const galeriaDiv = document.getElementById("fotosGaleria");
+    galeriaDiv.querySelectorAll("img").forEach(img => img.style.opacity = 0);
     setTimeout(()=>{
         document.getElementById("fotoContainer").style.display = "none";
-        document.getElementById("botoes").style.display = "block";
+        document.getElementById("categorias").style.display = "block";
     }, 300);
 });
 </script>
