@@ -4,21 +4,20 @@
 <meta charset="UTF-8">
 <title>Para o Amor da Minha Vida ❤️</title>
 <style>
-/* Reset e estilo básico */
+/* --- Reset / Geral --- */
 body {
     margin: 0;
-    padding: 0;
     font-family: 'Arial', sans-serif;
+    color: white;
+    overflow-x: hidden;
     background: linear-gradient(to bottom, #ffafbd, #ffc3a0);
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #333;
-    overflow: hidden;
 }
 
-/* Carta */
+/* Carta (introdução inicial) */
 .carta {
     display: flex;
     flex-direction: column;
@@ -33,6 +32,8 @@ body {
     text-align: center;
     position: relative;
     animation: surgir 1.2s ease forwards;
+    color: #333;
+    overflow: hidden;
 }
 
 /* Cabeçalho da carta */
@@ -51,7 +52,7 @@ body {
     color: #555;
 }
 
-/* Botão para entrar */
+/* Botão da carta */
 .carta button {
     background: #ff6f91;
     color: white;
@@ -66,118 +67,189 @@ body {
 .carta button:hover {
     background: #ff4567;
     transform: scale(1.05);
-    box-shadow: 0 0 10px #ff6f91;
 }
 
-/* Animação de surgimento */
-@keyframes surgir {
-    0% {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-/* Página Principal */
+/* --- Página Principal --- */
 #paginaPrincipal {
     display: none;
     text-align: center;
     height: 100vh;
-    background: black;
+    background-color: black;
+}
+
+/* Vídeo de fundo */
+#videoFundo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+/* Conteúdo principal */
+#conteudo {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+h1 {
+    font-size: 55px;
+    margin-top: 40px;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+p {
+    font-size: 24px;
+    opacity: 0;
+    transition: opacity 2s ease 0.5s;
+}
+
+/* Categorias e Galeria */
+#categorias button {
+    display: inline-block;
+    background: rgba(255, 154, 162, 0.8);
     color: white;
-    padding: 20px;
-    overflow-x: hidden;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s;
+}
+#categorias button:hover {
+    background: rgba(255, 111, 145, 0.9);
+    transform: scale(1.1);
+}
+.fotoContainer {
+    display: none;
+    margin-top: 20px;
+}
+.fotoContainer img {
+    width: 80%;
+    max-width: 500px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px black;
+    margin: 10px;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+#voltarBtn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 18px;
+    background: #ff6f91;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+#voltarBtn:hover {
+    background: #ff4567;
 }
 </style>
 </head>
 <body>
 
-<!-- Introdução com a carta -->
+<!-- Carta de introdução -->
 <div class="carta">
-    <h1>Uma Carta Para Você ❤️</h1>
-    <p>
-        Carol, <br><br>
-        Este é e sempre sera o meu maior projeto, o projeto mais especial, o projeto que eu sempre quis 
-        fazer para vc, algo que possa e ira, ficar marcado para sempre em nossa memoria, algo tao especial
-        para o amor da minha vida.<br><br>
-        Clique no botão abaixo para abrir uma surpresa feita especialmente para você. ❤️
-    </p>
-    <button id="entrarSite">Abrir Carta 💖</button>
+  <h1>Uma Carta Para Você ❤️</h1>
+  <p>
+    Meu amor, <br><br>
+    Desde o momento em que nos conhecemos, meu mundo ficou mais bonito, mais leve e mais feliz. 
+    Esse site é um presente para te lembrar o quanto você é importante para mim. 
+    Cada detalhe dele foi feito com carinho e amor, pensando em você. <br><br>
+    Clique no botão abaixo e descubra tudo o que eu preparei para você. 💕
+  </p>
+  <button id="abrirSite">Abrir Surpresa 💖</button>
 </div>
 
-<!-- Página Principal -->
+<!-- Página principal -->
 <div id="paginaPrincipal">
+    <!-- Vídeo de fundo -->
     <video autoplay muted loop id="videoFundo">
-      <source src="video.mp4" type="video/mp4">
-     
+        <source src="video.mp4" type="video/mp4">
+        Seu navegador não suporta vídeo.
     </video>
-    <div id="overlay"></div>
+
     <div id="conteudo">
         <h1>Eu te amo meu amor ❤️</h1>
         <p>Esse site é para lembrar o quanto você é especial pra mim.</p>
         <p>Nos conhecemos em 20/10/2024</p>
-        <img src="foto.jpeg" alt="Foto do casal" style="width:280px; border-radius:20px; box-shadow:0 0 15px black; margin-top:20px;">
+        <img src="foto.jpeg" alt="Foto do casal" style="width:280px; border-radius:20px; box-shadow:0 0 15px black; margin-top:20px; transition:opacity 2s ease 1.5s;">
         <p>Estamos juntos há:</p>
         <div id="contador"></div>
 
-        <button id="playMusic" style="margin-top: 20px;">Tocar Música 🎶</button>
-        <button id="stopMusic" style="margin-top: 20px;">Parar Música ✋</button>
+        <!-- Botões de categorias -->
+        <div id="categorias"></div>
 
-        <audio id="backgroundMusic" loop>
-            <source src="musica.mp3" type="audio/mpeg">
-            
-        </audio>
+        <!-- Galeria -->
+        <div id="fotoContainer" class="fotoContainer">
+            <div id="fotosGaleria"></div>
+            <button id="voltarBtn">Voltar</button>
+        </div>
     </div>
 </div>
 
 <script>
-// Função para alternar entre a introdução (carta) e a página principal
-const botaoEntrar = document.getElementById("entrarSite");
+// Alternando entre intro (carta) e página principal
+const botaoAbrir = document.getElementById("abrirSite");
 const carta = document.querySelector(".carta");
 const paginaPrincipal = document.getElementById("paginaPrincipal");
 
-// Clique no botão para abrir o site
-botaoEntrar.addEventListener("click", () => {
-    carta.style.display = "none"; // Esconde a carta
-    paginaPrincipal.style.display = "block"; // Mostra a página principal
+botaoAbrir.addEventListener("click", () => {
+    carta.style.display = "none";
+    paginaPrincipal.style.display = "block";
 });
 
 // Contador de dias juntos
 const dataInicio = new Date("2024-12-31");
 function atualizarContador() {
     const agora = new Date();
-    let diff = agora - dataInicio;
-    if (diff < 0) diff = 0;
+    const diff = agora - dataInicio;
     const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const contador = document.getElementById("contador");
-    contador.innerHTML = dias + " dias juntos 💖";
+    document.getElementById("contador").innerText = `${dias} dias juntos 💖`;
 }
 setInterval(atualizarContador, 1000);
 atualizarContador();
 
-// Controle da música
-const playMusicButton = document.getElementById('playMusic');
-const stopMusicButton = document.getElementById('stopMusic');
-const audio = document.getElementById('backgroundMusic');
+// Categorias de fotos
+const categorias = {
+    "Nossas fotos que mais amo": [
+        "foto1.jpeg", "foto2.jpeg", "foto3.jpeg"
+    ],
+    "Suas fotos engraçadas que mais amo": [
+        "zoada1.jpeg", "zoada2.jpeg", "zoada3.jpeg"
+    ]
+};
 
-// Botão Tocar Música
-playMusicButton?.addEventListener('click', () => {
-    audio.play();
-    playMusicButton.textContent = "Música tocando...";
-    playMusicButton.disabled = true;
-    stopMusicButton.disabled = false;
+const categoriasDiv = document.getElementById("categorias");
+Object.keys(categorias).forEach(catName => {
+    const btn = document.createElement("button");
+    btn.innerText = catName;
+    btn.addEventListener("click", () => mostrarCategoria(catName));
+    categoriasDiv.appendChild(btn);
 });
 
-// Botão Parar Música
-stopMusicButton?.addEventListener('click', () => {
-    audio.pause();
-    audio.currentTime = 0;
-    playMusicButton.textContent = "Tocar Música 🎶";
-    playMusicButton.disabled = false;
-    stopMusicButton.disabled = true;
+function mostrarCategoria(nome) {
+    const galeriaDiv = document.getElementById("fotosGaleria");
+    galeriaDiv.innerHTML = "";
+    categorias[nome].forEach(foto => {
+        const img = document.createElement("img");
+        img.src = foto;
+        galeriaDiv.appendChild(img);
+        setTimeout(() => { img.style.opacity = 1; }, 50);
+    });
+    document.getElementById("categorias").style.display = "none";
+    document.getElementById("fotoContainer").style.display = "block";
+}
+
+document.getElementById("voltarBtn").addEventListener("click", () => {
+    document.getElementById("fotoContainer").style.display = "none";
+    document.getElementById("categorias").style.display = "block";
 });
 </script>
 </body>
