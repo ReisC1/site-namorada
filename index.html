@@ -41,7 +41,7 @@ body {
 
 /* Cabeçalho */
 h1 { font-size:55px; margin-top:40px; opacity:0; transition: opacity 2s ease; }
-p { font-size:24px; opacity:0; transition: opacity2s ease 0.5s; }
+p { font-size:24px; opacity:0; transition: opacity 2s ease 0.5s; }
 
 /* Contador */
 #contador { font-size:35px; margin-top:20px; opacity:0; transition: opacity 2s ease 1s; }
@@ -103,12 +103,16 @@ button:hover {
       <div id="fotosGaleria"></div>
       <button id="voltarBtn">Voltar 💖</button>
   </div>
-</div>
 
-<!-- Música de fundo (YouTube em loop mudo para autoplay) -->
-<iframe width="0" height="0"
-src="https://www.youtube.com/embed/rtOvBOTyX00?autoplay=1&mute=1&loop=1&playlist=rtOvBOTyX00"
-frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <!-- Botão para tocar a música -->
+  <button id="playMusic" style="margin-top: 20px;">Tocar Música 🎶</button>
+
+  <!-- Elemento de áudio -->
+  <audio id="backgroundMusic" loop>
+    <source src="https://www.youtube.com/watch?v=rtOvBOTyX00&list=RDrtOvBOTyX00&start_radio=1.mp3" type="audio/mpeg">
+    Seu navegador não suporta o elemento de áudio.
+  </audio>
+</div>
 
 <script>
 // Contador de dias juntos
@@ -180,6 +184,16 @@ document.getElementById("voltarBtn").addEventListener("click",()=>{
         document.getElementById("fotoContainer").style.display="none";
         document.getElementById("categorias").style.display="block";
     },300);
+});
+
+// Reproduzir música ao clicar no botão
+const playMusicButton = document.getElementById('playMusic');
+const audio = document.getElementById('backgroundMusic');
+
+playMusicButton.addEventListener('click', () => {
+    audio.play();
+    playMusicButton.textContent = "🎶 Música tocando...";
+    playMusicButton.disabled = true; // Desabilita o botão após começar
 });
 </script>
 </body>
