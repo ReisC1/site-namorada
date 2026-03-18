@@ -104,8 +104,9 @@ button:hover {
       <button id="voltarBtn">Voltar 💖</button>
   </div>
 
-  <!-- Botão para tocar a música -->
+  <!-- Botões para tocar/parar música -->
   <button id="playMusic" style="margin-top: 20px;">Tocar Música 🎶</button>
+  <button id="stopMusic" style="margin-top: 20px;">Parar Música ✋</button>
 
   <!-- Elemento de áudio -->
   <audio id="backgroundMusic" loop>
@@ -186,14 +187,26 @@ document.getElementById("voltarBtn").addEventListener("click",()=>{
     },300);
 });
 
-// Reproduzir música ao clicar no botão
+// Reproduzir música ao clicar no botão "Tocar Música"
 const playMusicButton = document.getElementById('playMusic');
+const stopMusicButton = document.getElementById('stopMusic');
 const audio = document.getElementById('backgroundMusic');
 
+// Botão de tocar música
 playMusicButton.addEventListener('click', () => {
     audio.play();
     playMusicButton.textContent = "🎶 Música tocando...";
-    playMusicButton.disabled = true; // Desabilita o botão após começar
+    playMusicButton.disabled = true; // Desabilitar o botão "Tocar Música"
+    stopMusicButton.disabled = false; // Habilitar o botão "Parar Música"
+});
+
+// Botão de parar música
+stopMusicButton.addEventListener('click', () => {
+    audio.pause();
+    audio.currentTime = 0; // Reiniciar a música desde o começo
+    playMusicButton.textContent = "Tocar Música 🎶";
+    playMusicButton.disabled = false; // Reabilitar o botão "Tocar Música"
+    stopMusicButton.disabled = true; // Desabilitar o botão "Parar Música"
 });
 </script>
 </body>
