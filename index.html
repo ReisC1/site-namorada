@@ -32,7 +32,7 @@ body {
     animation: surgir 1.2s ease forwards;
 }
 
-/* 🔥 CORRIGIDO AQUI */
+/* COR DA CARTA */
 .carta * {
     color: black;
 }
@@ -85,12 +85,13 @@ body {
     z-index: 1;
 }
 
-h1 {
+/* 🔥 AGORA SÓ A SEGUNDA TELA COMEÇA INVISÍVEL */
+#conteudo h1 {
     opacity: 0;
     transition: 2s;
 }
 
-p {
+#conteudo p {
     opacity: 0;
     transition: 2s;
 }
@@ -100,7 +101,7 @@ p {
     transition: 2s;
 }
 
-img {
+#conteudo img {
     opacity: 0;
     transition: 2s;
 }
@@ -119,6 +120,7 @@ button {
 
 <body>
 
+<!-- CARTA -->
 <div class="carta">
   <h1>Uma Carta Para Você ❤️</h1>
   <p>
@@ -129,6 +131,7 @@ button {
   <button id="abrirSite">Abrir Surpresa 💕</button>
 </div>
 
+<!-- PÁGINA PRINCIPAL -->
 <div id="paginaPrincipal">
 
 <video autoplay muted loop playsinline id="videoFundo">
@@ -167,18 +170,18 @@ botaoAbrir.onclick = () => {
     paginaPrincipal.style.display = "block";
 
     setTimeout(() => {
-        document.querySelector("h1").style.opacity = 1;
+        document.querySelector("#conteudo h1").style.opacity = 1;
 
         document.querySelectorAll("#conteudo p").forEach(p => {
             p.style.opacity = 1;
         });
 
         document.getElementById("contador").style.opacity = 1;
-        document.querySelector("img").style.opacity = 1;
+        document.querySelector("#conteudo img").style.opacity = 1;
     }, 300);
 };
 
-// contador corrigido
+// CONTADOR
 const dataInicio = new Date("2024-10-20");
 
 function atualizarContador() {
@@ -189,7 +192,7 @@ function atualizarContador() {
 setInterval(atualizarContador, 1000);
 atualizarContador();
 
-// música
+// MÚSICA
 const play = document.getElementById("playMusic");
 const stop = document.getElementById("stopMusic");
 const audio = document.getElementById("backgroundMusic");
