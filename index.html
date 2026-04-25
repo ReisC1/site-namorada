@@ -2,214 +2,476 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Para Carol, minha princesa.</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Carol, minha princesa 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* BODY NORMAL (SEM FLEX BUGANDO) */
 body {
-    font-family: Arial, sans-serif;
-    overflow: hidden;
+  font-family: 'Lato', sans-serif;
+  overflow: hidden;
+  background: #1a0010;
 }
 
-/* CENTRALIZA A CARTA */
-.carta-container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(to bottom, #ffafbd, #ffc3a0);
+#app {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
 }
 
-/* CARTA */
-.carta {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    max-width: 500px;
-    text-align: center;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+/* CORAÇÕES FLUTUANTES */
+#hearts-bg {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 0;
 }
 
-/* TEXTO PRETO */
-.carta * {
-    color: black;
+.heart-float {
+  position: absolute;
+  bottom: -60px;
+  animation: floatUp linear infinite;
+  opacity: 0;
 }
 
-/* BOTÃO */
-.carta button {
-    margin-top: 20px;
-    padding: 12px 20px;
-    background: #ff6f91;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
+@keyframes floatUp {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.7; }
+  90%  { opacity: 0.4; }
+  100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
 }
 
-/* PÁGINA PRINCIPAL */
-#paginaPrincipal {
-    display: none;
-    position: fixed;
-    width: 100%;
-    height: 100%;
+/* ESTRELAS */
+.star {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle ease-in-out infinite;
 }
 
-/* VÍDEO CORRIGIDO */
-#videoFundo {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform: translate(-50%, -50%);
+@keyframes twinkle {
+  0%,100% { opacity: 0.1; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.8); }
 }
 
-/* OVERLAY */
-#overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.4);
+/* ===== TELA 1: CARTA ===== */
+#screen-carta {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(ellipse at center, #3d0030 0%, #1a0010 70%);
+  z-index: 10;
+  transition: opacity 0.9s ease, transform 0.9s ease;
 }
 
-/* CONTEÚDO CENTRAL */
-#conteudo {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    top: 50%;
-    transform: translateY(-50%);
-    color: white;
+#screen-carta.hide {
+  opacity: 0;
+  transform: scale(1.08);
+  pointer-events: none;
 }
 
-/* ANIMAÇÃO */
-#conteudo h1,
-#conteudo p,
-#contador,
-#conteudo img {
-    opacity: 0;
-    transition: 2s;
+.carta-box {
+  background: rgba(255,255,255,0.97);
+  border-radius: 22px;
+  padding: 36px 32px 28px;
+  text-align: center;
+  box-shadow: 0 0 80px #ff3a7870, 0 0 0 1px #ff6fa840;
+  animation: fadeSlideIn 1s ease both;
+  max-width: 360px;
+  width: 90%;
 }
 
-/* IMAGEM */
-#conteudo img {
-    margin-top: 20px;
-    border-radius: 20px;
-    box-shadow: 0 0 20px black;
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* BOTÕES */
-button {
-    margin-top: 10px;
-    padding: 10px 15px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
+.carta-box h2 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 30px;
+  color: #c0005a;
+  margin-bottom: 18px;
+}
+
+.carta-box p {
+  font-size: 14.5px;
+  color: #444;
+  line-height: 1.85;
+  margin-bottom: 24px;
+}
+
+.btn-abrir {
+  background: linear-gradient(135deg, #ff3a78, #ff8fa3);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 28px;
+  font-size: 14px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  cursor: pointer;
+  box-shadow: 0 4px 24px #ff3a7870;
+  transition: transform 0.15s, box-shadow 0.15s;
+  width: 100%;
+  letter-spacing: 0.5px;
+}
+
+.btn-abrir:hover  { transform: scale(1.04); box-shadow: 0 8px 32px #ff3a7890; }
+.btn-abrir:active { transform: scale(0.97); }
+
+/* ===== TELA 2: PRINCIPAL ===== */
+#screen-main {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: radial-gradient(ellipse at 50% 30%, #3d0030 0%, #1a0010 70%);
+  z-index: 5;
+  opacity: 0; pointer-events: none;
+  transition: opacity 1.4s ease;
+  padding: 24px 20px;
+  overflow-y: auto;
+}
+
+#screen-main.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* PARTÍCULAS */
+#particles {
+  position: absolute; inset: 0;
+  pointer-events: none;
+}
+
+.main-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(36px, 7vw, 52px);
+  color: #fff;
+  text-shadow: 0 0 30px #ff6fa8, 0 0 70px #ff3a78;
+  opacity: 0;
+  transform: translateY(-24px);
+  transition: opacity 1.2s 0.4s, transform 1.2s 0.4s;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.main-sub {
+  font-size: 12px;
+  color: #ffb3cc;
+  letter-spacing: 3px;
+  opacity: 0;
+  transition: opacity 1.2s 0.7s;
+  margin-bottom: 26px;
+  text-align: center;
+}
+
+.photo-wrap {
+  position: relative;
+  margin-bottom: 10px;
+  opacity: 0;
+  transform: scale(0.82);
+  transition: opacity 1.2s 0.9s, transform 1.2s 0.9s;
+}
+
+.photo-ring {
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  border: 3px solid #ff6fa8;
+  box-shadow:
+    0 0 0 8px rgba(255,63,120,0.12),
+    0 0 0 14px rgba(255,63,120,0.06),
+    0 0 50px #ff3a7870;
+  overflow: hidden;
+  background: #2a001a;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 64px;
+}
+
+.photo-ring img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.photo-glow {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ff6fa830 0%, transparent 70%);
+  animation: glowPulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes glowPulse {
+  0%,100% { transform: scale(1); opacity: 0.6; }
+  50%      { transform: scale(1.1); opacity: 1; }
+}
+
+.photo-label {
+  font-size: 12px;
+  color: #ff8fad;
+  letter-spacing: 0.8px;
+  margin-bottom: 22px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1.2s 1.1s;
+}
+
+.counter-box {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,111,168,0.25);
+  border-radius: 18px;
+  padding: 16px 28px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity 1.2s 1.2s;
+  margin-bottom: 22px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.counter-label {
+  font-size: 11px;
+  color: #ffb3cc;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.counter-nums {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.cnt-unit { text-align: center; }
+
+.cnt-num {
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  font-family: 'Dancing Script', cursive;
+  line-height: 1;
+  text-shadow: 0 0 20px #ff6fa8;
+  min-width: 44px;
+  display: block;
+}
+
+.cnt-lbl {
+  font-size: 10px;
+  color: #ff8fad;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.cnt-sep {
+  font-size: 22px;
+  color: #ff6fa870;
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+.music-btns {
+  display: flex; gap: 10px;
+  opacity: 0;
+  transition: opacity 1.2s 1.4s;
+}
+
+.btn-music {
+  background: rgba(255,111,168,0.12);
+  color: #ffb3cc;
+  border: 1px solid rgba(255,111,168,0.35);
+  border-radius: 30px;
+  padding: 10px 22px;
+  font-size: 13px;
+  font-family: 'Lato', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  backdrop-filter: blur(4px);
+  letter-spacing: 0.5px;
+}
+
+.btn-music:hover  {
+  background: rgba(255,111,168,0.28);
+  box-shadow: 0 0 20px #ff6fa840;
+  transform: scale(1.05);
+}
+
+.btn-music:active { transform: scale(0.96); }
+
+.btn-music:disabled {
+  opacity: 0.3;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+
+.visible {
+  opacity: 1 !important;
+  transform: none !important;
 }
 </style>
 </head>
-
 <body>
 
-<!-- CARTA -->
-<div class="carta-container">
-    <div class="carta">
-        <h1>Uma Carta Para Você ❤️</h1>
-        <p>
-            Meu amor, <br><br>
-            Desde o momento em que nos conhecemos, meu mundo ficou mais bonito, mais leve e mais feliz. 
-        Esse site é um presente para te lembrar o quanto você é importante para mim. 
-        Cada detalhe dele foi feito com carinho e amor, pensando em você. 
-        </p>
-        <button id="abrirSite">Clique no botão abaixo para abrir uma surpresa feita especialmente para você. ❤️</button>
+<div id="app">
+  <div id="hearts-bg"></div>
+
+  <!-- TELA 1: CARTA -->
+  <div id="screen-carta">
+    <div class="carta-box">
+      <h2>Uma Carta Para Você 💌</h2>
+      <p>
+        Meu amor,<br><br>
+        Desde o momento em que nos conhecemos, meu mundo ficou mais bonito,
+        mais leve e mais feliz. Esse site é um presente para te lembrar o quanto
+        você é importante para mim. Cada detalhe foi feito com carinho, pensando
+        em você. ❤️
+      </p>
+      <button class="btn-abrir" id="btn-abrir">
+        Abrir minha surpresa ✨
+      </button>
     </div>
-</div>
+  </div>
 
-<!-- SEGUNDA TELA -->
-<div id="paginaPrincipal">
+  <!-- TELA 2: PRINCIPAL -->
+  <div id="screen-main">
+    <div id="particles"></div>
 
-    <video autoplay muted loop playsinline id="videoFundo">
-        <source src="video.mp4" type="video/mp4">
-    </video>
+    <h1 class="main-title" id="el-title">Eu te amo, Carol 💖</h1>
+    <p class="main-sub" id="el-sub">VOCÊ É TUDO PRA MIM</p>
 
-    <div id="overlay"></div>
-
-    <div id="conteudo">
-        <h1>Eu te amo ❤️</h1>
-        <p>Você é tudo pra mim</p>
-        <p>Nossa primeira fotos juntos como namorados 31/12/2024</p>
-
-        <img src="foto zoada 1.jpeg" width="250">
-
-        <p>Estamos juntos há:</p>
-        <div id="contador"></div>
-
-        <button id="playMusic">Tocar Música 🎶</button>
-        <button id="stopMusic" disabled>Parar Música ✋</button>
-
-        <audio id="backgroundMusic" loop>
-            <source src="musica.mp3" type="audio/mpeg">
-        </audio>
+    <div class="photo-wrap" id="el-photo">
+      <div class="photo-glow"></div>
+      <div class="photo-ring">
+        <img src="foto1.jpeg" alt="Nossa foto"
+             onerror="this.style.display='none';this.parentElement.innerHTML='💕'">
+      </div>
     </div>
+
+    <p class="photo-label" id="el-label">
+      Nossa primeira foto como namorados — 31/12/2024
+    </p>
+
+    <div class="counter-box" id="el-counter">
+      <div class="counter-label">Estamos juntos há</div>
+      <div class="counter-nums">
+        <div class="cnt-unit">
+          <span class="cnt-num" id="cnt-d">0</span>
+          <div class="cnt-lbl">dias</div>
+        </div>
+        <div class="cnt-sep">·</div>
+        <div class="cnt-unit">
+          <span class="cnt-num" id="cnt-h">00</span>
+          <div class="cnt-lbl">horas</div>
+        </div>
+        <div class="cnt-sep">·</div>
+        <div class="cnt-unit">
+          <span class="cnt-num" id="cnt-m">00</span>
+          <div class="cnt-lbl">min</div>
+        </div>
+        <div class="cnt-sep">·</div>
+        <div class="cnt-unit">
+          <span class="cnt-num" id="cnt-s">00</span>
+          <div class="cnt-lbl">seg</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="music-btns" id="el-music">
+      <button class="btn-music" id="btn-play">🎶 Tocar Música</button>
+      <button class="btn-music" id="btn-stop" disabled>✋ Parar</button>
+    </div>
+
+    <audio id="audio" loop>
+      <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+  </div>
 </div>
 
 <script>
-const botao = document.getElementById("abrirSite");
-const cartaContainer = document.querySelector(".carta-container");
-const pagina = document.getElementById("paginaPrincipal");
+  // CORAÇÕES E FLORES FLUTUANTES
+  const FLOATS = ['❤️','💕','💖','💗','💓','🌸','✨','🌹','💝'];
 
-botao.onclick = () => {
-    cartaContainer.style.display = "none";
-    pagina.style.display = "block";
+  function spawnHeart() {
+    const bg = document.getElementById('hearts-bg');
+    const el = document.createElement('div');
+    el.className = 'heart-float';
+    el.textContent = FLOATS[Math.floor(Math.random() * FLOATS.length)];
+    el.style.left = (Math.random() * 100) + '%';
+    el.style.fontSize = (10 + Math.random() * 18) + 'px';
+    const dur = 6 + Math.random() * 8;
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay = (Math.random() * 2) + 's';
+    bg.appendChild(el);
+    setTimeout(() => el.remove(), (dur + 3) * 1000);
+  }
+
+  setInterval(spawnHeart, 700);
+  for (let i = 0; i < 10; i++) spawnHeart();
+
+  // ESTRELAS
+  function makeStars() {
+    const p = document.getElementById('particles');
+    for (let i = 0; i < 70; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      s.style.left  = (Math.random() * 100) + '%';
+      s.style.top   = (Math.random() * 100) + '%';
+      s.style.animationDuration = (2 + Math.random() * 4) + 's';
+      s.style.animationDelay   = (Math.random() * 5) + 's';
+      p.appendChild(s);
+    }
+  }
+  makeStars();
+
+  // TRANSIÇÃO DE TELA
+  document.getElementById('btn-abrir').onclick = () => {
+    document.getElementById('screen-carta').classList.add('hide');
+    const main = document.getElementById('screen-main');
+    main.classList.add('show');
 
     setTimeout(() => {
-        document.querySelector("#conteudo h1").style.opacity = 1;
-
-        document.querySelectorAll("#conteudo p").forEach(p => {
-            p.style.opacity = 1;
-        });
-
-        document.getElementById("contador").style.opacity = 1;
-        document.querySelector("#conteudo img").style.opacity = 1;
+      ['el-title','el-sub','el-photo','el-label','el-counter','el-music']
+        .forEach(id => document.getElementById(id).classList.add('visible'));
     }, 300);
-};
+  };
 
-// CONTADOR
-const dataInicio = new Date("2024-12-31");
+  // CONTADOR EM TEMPO REAL
+  const start = new Date('2024-12-31T00:00:00');
 
-function atualizar() {
-    const dias = Math.floor((new Date() - dataInicio) / (1000*60*60*24));
-    document.getElementById("contador").innerHTML = dias + " dias 💖";
-}
+  function tick() {
+    const diff = Date.now() - start.getTime();
+    const s = Math.floor(diff / 1000) % 60;
+    const m = Math.floor(diff / 60000) % 60;
+    const h = Math.floor(diff / 3600000) % 24;
+    const d = Math.floor(diff / 86400000);
+    document.getElementById('cnt-d').textContent = d;
+    document.getElementById('cnt-h').textContent = String(h).padStart(2,'0');
+    document.getElementById('cnt-m').textContent = String(m).padStart(2,'0');
+    document.getElementById('cnt-s').textContent = String(s).padStart(2,'0');
+  }
 
-setInterval(atualizar, 1000);
-atualizar();
+  setInterval(tick, 1000);
+  tick();
 
-// MÚSICA
-const play = document.getElementById("playMusic");
-const stop = document.getElementById("stopMusic");
-const audio = document.getElementById("backgroundMusic");
+  // MÚSICA
+  const audio = document.getElementById('audio');
 
-play.onclick = () => {
+  document.getElementById('btn-play').onclick = () => {
     audio.play();
-    play.disabled = true;
-    stop.disabled = false;
-};
+    document.getElementById('btn-play').disabled = true;
+    document.getElementById('btn-stop').disabled = false;
+  };
 
-stop.onclick = () => {
+  document.getElementById('btn-stop').onclick = () => {
     audio.pause();
     audio.currentTime = 0;
-    play.disabled = false;
-    stop.disabled = true;
-};
+    document.getElementById('btn-play').disabled = false;
+    document.getElementById('btn-stop').disabled = true;
+  };
 </script>
 
 </body>
