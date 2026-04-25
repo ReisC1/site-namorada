@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Carol, minha princesa 💖</title>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -12,57 +12,115 @@
   --pink: #ff2d6b;
   --pink-light: #ff6fa8;
   --pink-glow: rgba(255,45,107,0.5);
+  --dark: #0a0005;
 }
+
+html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Lato', sans-serif;
-  background: #0a0005;
-  overflow: hidden;
-  height: 100vh;
-  width: 100vw;
+  background: var(--dark);
+  color: white;
+  overflow-x: hidden;
 }
 
-/* MOSAICO DE FOTOS */
+/* =====================
+   TELA 1 — CARTA INICIAL
+   ===================== */
+#screen-carta {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+  background: radial-gradient(ellipse at center, #2a0018 0%, var(--dark) 70%);
+  transition: opacity 1s ease, transform 1s ease;
+}
+#screen-carta.hide {
+  opacity: 0; transform: scale(1.06); pointer-events: none;
+}
+
+.carta-box {
+  background: rgba(10,0,5,0.9);
+  border: 1px solid rgba(255,45,107,0.3);
+  border-radius: 20px;
+  padding: 42px 38px 34px;
+  text-align: center;
+  backdrop-filter: blur(24px);
+  box-shadow: 0 0 80px rgba(255,45,107,0.2);
+  animation: fadeSlideIn 1s ease both;
+  max-width: 400px;
+  width: 92%;
+}
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.carta-box h2 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 34px; color: #fff;
+  margin-bottom: 20px;
+  text-shadow: 0 0 30px var(--pink-glow);
+}
+.carta-box p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.9; margin-bottom: 28px;
+  font-weight: 300;
+}
+.btn-abrir {
+  background: var(--pink); color: white;
+  border: none; border-radius: 6px;
+  padding: 15px 30px; font-size: 15px;
+  font-family: 'Lato', sans-serif; font-weight: 700;
+  cursor: pointer; width: 100%;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 4px 24px rgba(255,45,107,0.5);
+}
+.btn-abrir:hover { background: #ff4d80; transform: scale(1.02); }
+
+/* =====================
+   SEÇÃO 1 — HERO (estilo Netflix)
+   ===================== */
+#hero {
+  position: relative;
+  width: 100vw; height: 100vh;
+  overflow: hidden;
+}
+
+/* MOSAICO */
 #mosaic {
-  position: fixed;
-  inset: 0;
+  position: absolute; inset: 0;
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 4px;
   transform: scale(1.08) rotate(-3deg);
-  z-index: 0;
   pointer-events: none;
 }
-
 .mosaic-item { overflow: hidden; }
-
 .mosaic-item img {
   width: 100%; height: 100%;
   object-fit: cover;
-  filter: brightness(0.55) saturate(1.1);
+  filter: brightness(0.52) saturate(1.1);
 }
-
 .mosaic-item:nth-child(3n) img { animation: photoPulse 6s ease-in-out infinite; }
 .mosaic-item:nth-child(5n) img { animation: photoPulse 8s ease-in-out 2s infinite; }
 .mosaic-item:nth-child(7n) img { animation: photoPulse 7s ease-in-out 4s infinite; }
-
 @keyframes photoPulse {
-  0%,100% { filter: brightness(0.55) saturate(1.1); }
-  50%      { filter: brightness(0.78) saturate(1.4); }
+  0%,100% { filter: brightness(0.52) saturate(1.1); }
+  50%      { filter: brightness(0.75) saturate(1.4); }
 }
 
-/* OVERLAY ESTILO NETFLIX */
-#overlay {
-  position: fixed; inset: 0; z-index: 1;
+/* OVERLAY */
+#hero-overlay {
+  position: absolute; inset: 0;
   background:
-    linear-gradient(to right, rgba(10,0,5,0.9) 0%, rgba(10,0,5,0.25) 45%, rgba(10,0,5,0.25) 55%, rgba(10,0,5,0.9) 100%),
-    linear-gradient(to bottom, rgba(10,0,5,0.65) 0%, transparent 25%, transparent 75%, rgba(10,0,5,0.98) 100%);
+    linear-gradient(to right, rgba(10,0,5,0.92) 0%, rgba(10,0,5,0.2) 50%, rgba(10,0,5,0.92) 100%),
+    linear-gradient(to bottom, rgba(10,0,5,0.6) 0%, transparent 25%, transparent 65%, rgba(10,0,5,1) 100%);
   pointer-events: none;
 }
 
-/* CORAÇÕES FLUTUANTES */
-#hearts-bg { position: fixed; inset: 0; pointer-events: none; z-index: 2; }
+/* CORAÇÕES */
+#hearts-bg { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
 .heart-float {
   position: absolute; bottom: -60px;
   animation: floatUp linear infinite; opacity: 0;
@@ -74,177 +132,83 @@ body {
   100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
 }
 
-/* TELA 1: CARTA */
-#screen-carta {
-  position: fixed; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  z-index: 20;
-  transition: opacity 1s ease, transform 1s ease;
-}
-#screen-carta.hide {
-  opacity: 0; transform: scale(1.06); pointer-events: none;
-}
-
-.carta-box {
-  background: rgba(10,0,5,0.88);
-  border: 1px solid rgba(255,45,107,0.3);
-  border-radius: 20px;
-  padding: 42px 38px 34px;
-  text-align: center;
-  backdrop-filter: blur(24px);
-  box-shadow: 0 0 80px rgba(255,45,107,0.2), inset 0 0 60px rgba(255,45,107,0.03);
-  animation: fadeSlideIn 1s ease both;
-  max-width: 400px;
-  width: 92%;
-}
-@keyframes fadeSlideIn {
-  from { opacity: 0; transform: translateY(40px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.carta-box h2 {
-  font-family: 'Dancing Script', cursive;
-  font-size: 34px;
-  color: #fff;
-  margin-bottom: 20px;
-  text-shadow: 0 0 30px var(--pink-glow);
-}
-.carta-box p {
-  font-size: 15px;
-  color: rgba(255,255,255,0.72);
-  line-height: 1.9;
-  margin-bottom: 28px;
-  font-weight: 300;
-}
-
-.btn-abrir {
-  background: var(--pink);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 15px 30px;
-  font-size: 15px;
-  font-family: 'Lato', sans-serif;
-  font-weight: 700;
-  cursor: pointer;
-  letter-spacing: 0.5px;
-  width: 100%;
-  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-  box-shadow: 0 4px 24px rgba(255,45,107,0.5);
-}
-.btn-abrir:hover  { background: #ff4d80; transform: scale(1.02); }
-.btn-abrir:active { transform: scale(0.98); }
-
-/* TELA 2: PRINCIPAL */
-#screen-main {
-  position: fixed; inset: 0;
+/* CONTEÚDO HERO */
+#hero-content {
+  position: absolute; inset: 0;
   display: flex; flex-direction: column;
   align-items: flex-start; justify-content: center;
-  z-index: 10;
-  opacity: 0; pointer-events: none;
-  transition: opacity 1.5s ease;
   padding: 0 6vw;
+  z-index: 3;
 }
-#screen-main.show { opacity: 1; pointer-events: all; }
 
 .badge {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 3.5px;
-  color: var(--pink);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 3.5px; color: var(--pink);
   text-transform: uppercase;
-  opacity: 0;
-  transition: opacity 1s 0.3s;
+  opacity: 0; transition: opacity 1s 0.3s;
   margin-bottom: 14px;
 }
-
 .main-title {
   font-family: 'Dancing Script', cursive;
   font-size: clamp(50px, 8vw, 92px);
-  color: #fff;
-  line-height: 1.05;
-  opacity: 0;
-  transform: translateY(20px);
+  color: #fff; line-height: 1.05;
+  opacity: 0; transform: translateY(20px);
   transition: opacity 1.2s 0.5s, transform 1.2s 0.5s;
   margin-bottom: 18px;
   text-shadow: 0 2px 40px rgba(0,0,0,0.8);
   max-width: 700px;
 }
-
 .main-desc {
   font-size: clamp(14px, 1.8vw, 17px);
   color: rgba(255,255,255,0.75);
-  font-weight: 300;
-  opacity: 0;
+  font-weight: 300; opacity: 0;
   transition: opacity 1.2s 0.8s;
-  margin-bottom: 0;
-  max-width: 480px;
-  line-height: 1.75;
+  max-width: 480px; line-height: 1.75;
 }
-
 .counter-box {
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,111,168,0.18);
   border-radius: 10px;
   padding: 14px 22px;
-  display: inline-flex;
-  gap: 18px;
+  display: inline-flex; gap: 18px;
   align-items: flex-end;
   backdrop-filter: blur(12px);
-  opacity: 0;
-  transition: opacity 1.2s 1s;
-  margin-bottom: 26px;
-  margin-top: 18px;
+  opacity: 0; transition: opacity 1.2s 1s;
+  margin: 18px 0 26px;
 }
-
 .cnt-unit { text-align: center; }
 .cnt-num {
-  font-size: 28px;
-  font-weight: 700;
-  color: #fff;
+  font-size: 28px; font-weight: 700; color: #fff;
   font-family: 'Dancing Script', cursive;
-  line-height: 1;
-  text-shadow: 0 0 16px var(--pink-light);
-  display: block;
-  min-width: 38px;
+  line-height: 1; text-shadow: 0 0 16px var(--pink-light);
+  display: block; min-width: 38px;
 }
 .cnt-lbl {
-  font-size: 9px;
-  color: var(--pink-light);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-top: 3px;
+  font-size: 9px; color: var(--pink-light);
+  letter-spacing: 2px; text-transform: uppercase; margin-top: 3px;
 }
 .cnt-sep { font-size: 20px; color: rgba(255,111,168,0.35); margin-bottom: 6px; }
 
 .action-row {
   display: flex; gap: 12px;
-  opacity: 0;
-  transition: opacity 1.2s 1.2s;
-  flex-wrap: wrap;
+  opacity: 0; transition: opacity 1.2s 1.2s;
+  flex-wrap: wrap; align-items: center;
 }
-
 .btn-primary {
   background: white; color: #0a0005;
   border: none; border-radius: 6px;
-  padding: 13px 28px;
-  font-size: 15px; font-weight: 700;
-  font-family: 'Lato', sans-serif;
-  cursor: pointer;
+  padding: 13px 28px; font-size: 15px; font-weight: 700;
+  font-family: 'Lato', sans-serif; cursor: pointer;
   display: flex; align-items: center; gap: 8px;
   transition: background 0.2s, transform 0.15s;
 }
 .btn-primary:hover { background: rgba(255,255,255,0.85); transform: scale(1.03); }
 .btn-primary:disabled { opacity: 0.4; cursor: default; transform: none; }
-
 .btn-secondary {
-  background: rgba(109,109,110,0.45);
-  color: white;
+  background: rgba(109,109,110,0.45); color: white;
   border: none; border-radius: 6px;
-  padding: 13px 28px;
-  font-size: 15px; font-weight: 700;
-  font-family: 'Lato', sans-serif;
-  cursor: pointer;
+  padding: 13px 28px; font-size: 15px; font-weight: 700;
+  font-family: 'Lato', sans-serif; cursor: pointer;
   display: flex; align-items: center; gap: 8px;
   backdrop-filter: blur(4px);
   transition: background 0.2s, transform 0.15s;
@@ -252,37 +216,202 @@ body {
 .btn-secondary:hover { background: rgba(109,109,110,0.65); transform: scale(1.03); }
 .btn-secondary:disabled { opacity: 0.35; cursor: default; transform: none; }
 
-/* MINI GALERIA LATERAL */
-#mini-gallery {
-  position: fixed;
-  right: 3vw; top: 50%;
-  transform: translateY(-50%);
-  display: flex; flex-direction: column; gap: 8px;
-  z-index: 15;
-  opacity: 0;
-  transition: opacity 1.2s 1.5s;
+.scroll-hint {
+  position: absolute; bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.4);
+  font-size: 12px; letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0; transition: opacity 1.2s 1.6s;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  cursor: pointer; z-index: 3;
+  animation: none;
+}
+.scroll-hint .arrow {
+  font-size: 20px;
+  animation: bounce 2s ease-in-out infinite;
+}
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(6px); }
 }
 
+/* MINI GALERIA */
+#mini-gallery {
+  position: absolute; right: 3vw; top: 50%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 8px;
+  z-index: 4; opacity: 0; transition: opacity 1.2s 1.5s;
+}
 .mini-thumb {
   width: 70px; height: 70px;
-  border-radius: 8px; overflow: hidden;
-  cursor: pointer;
+  border-radius: 8px; overflow: hidden; cursor: pointer;
   border: 2px solid transparent;
   transition: border-color 0.2s, transform 0.2s;
 }
 .mini-thumb:hover { border-color: var(--pink); transform: scale(1.1) translateX(-5px); }
-.mini-thumb img {
+.mini-thumb img, .mini-thumb video {
   width: 100%; height: 100%; object-fit: cover;
-  filter: brightness(0.65);
-  transition: filter 0.2s;
+  filter: brightness(0.65); transition: filter 0.2s;
 }
-.mini-thumb:hover img { filter: brightness(1); }
+.mini-thumb:hover img, .mini-thumb:hover video { filter: brightness(1); }
+.mini-thumb .play-icon {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; color: white;
+  text-shadow: 0 0 8px rgba(0,0,0,0.8);
+}
+.mini-thumb { position: relative; }
+
+/* =====================
+   SEÇÃO 2 — GALERIA + CARTA
+   ===================== */
+#section-galeria {
+  position: relative;
+  background: var(--dark);
+  padding: 80px 6vw 100px;
+  z-index: 10;
+}
+
+.section-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(32px, 5vw, 52px);
+  color: #fff;
+  margin-bottom: 10px;
+  text-shadow: 0 0 30px var(--pink-glow);
+}
+.section-sub {
+  font-size: 13px; color: rgba(255,255,255,0.4);
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 40px;
+}
+
+/* GRADE DE FOTOS */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 60px;
+}
+.photo-grid-item {
+  aspect-ratio: 3/4;
+  overflow: hidden; border-radius: 8px; cursor: pointer;
+  position: relative;
+}
+.photo-grid-item img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.4s, filter 0.3s;
+  filter: brightness(0.85);
+}
+.photo-grid-item:hover img { transform: scale(1.06); filter: brightness(1); }
+.photo-grid-item .overlay-label {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
+  opacity: 0; transition: opacity 0.3s;
+  display: flex; align-items: flex-end; padding: 12px;
+}
+.photo-grid-item:hover .overlay-label { opacity: 1; }
+
+/* VÍDEO NA GRADE */
+.video-grid-item {
+  aspect-ratio: 3/4;
+  overflow: hidden; border-radius: 8px; cursor: pointer;
+  position: relative; background: #111;
+  border: 2px solid rgba(255,45,107,0.3);
+}
+.video-grid-item video {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: brightness(0.75);
+}
+.video-grid-item .play-overlay {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 8px;
+  background: rgba(0,0,0,0.3);
+  transition: background 0.3s;
+}
+.video-grid-item:hover .play-overlay { background: rgba(0,0,0,0.1); }
+.play-btn-big {
+  width: 56px; height: 56px;
+  background: rgba(255,45,107,0.85);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 0 24px rgba(255,45,107,0.6);
+  transition: transform 0.2s;
+}
+.video-grid-item:hover .play-btn-big { transform: scale(1.1); }
+.play-label {
+  font-size: 11px; color: white;
+  letter-spacing: 2px; text-transform: uppercase;
+}
+
+/* DIVISOR */
+.divider {
+  width: 60px; height: 2px;
+  background: var(--pink);
+  margin: 60px 0 50px;
+  border-radius: 2px;
+}
+
+/* CARTA FINAL */
+.carta-final {
+  max-width: 680px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,45,107,0.15);
+  border-radius: 20px;
+  padding: 48px 44px;
+  position: relative;
+  overflow: hidden;
+}
+.carta-final::before {
+  content: '"';
+  position: absolute; top: -20px; left: 28px;
+  font-family: 'Playfair Display', serif;
+  font-size: 160px; color: rgba(255,45,107,0.07);
+  line-height: 1; pointer-events: none;
+}
+
+.carta-final-titulo {
+  font-family: 'Dancing Script', cursive;
+  font-size: 28px; color: var(--pink-light);
+  margin-bottom: 28px;
+}
+
+.carta-final p {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: rgba(255,255,255,0.82);
+  line-height: 2; margin-bottom: 20px;
+  font-style: italic;
+}
+
+.carta-final .citacao {
+  border-left: 3px solid var(--pink);
+  padding-left: 20px; margin: 28px 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px; color: rgba(255,255,255,0.65);
+  font-style: italic;
+}
+.carta-final .citacao span {
+  display: block; margin-top: 8px;
+  font-size: 13px; color: var(--pink-light);
+  font-family: 'Lato', sans-serif;
+  font-style: normal; letter-spacing: 1px;
+}
+
+.carta-final .assinatura {
+  margin-top: 36px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 22px; color: #fff;
+  text-align: right;
+}
 
 /* LIGHTBOX */
 #lightbox {
   position: fixed; inset: 0;
-  background: rgba(0,0,0,0.93);
-  z-index: 50;
+  background: rgba(0,0,0,0.94);
+  z-index: 200;
   display: none;
   align-items: center; justify-content: center;
   cursor: pointer;
@@ -298,23 +427,48 @@ body {
   color: white; font-size: 30px; cursor: pointer;
 }
 
-.visible { opacity: 1 !important; transform: none !important; }
+/* VIDEO MODAL */
+#video-modal {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.96);
+  z-index: 200;
+  display: none;
+  align-items: center; justify-content: center;
+}
+#video-modal.open { display: flex; }
+#video-modal video {
+  max-width: 90vw; max-height: 88vh;
+  border-radius: 10px;
+  box-shadow: 0 0 60px rgba(255,45,107,0.3);
+}
+#video-modal-close {
+  position: absolute; top: 22px; right: 30px;
+  color: white; font-size: 30px; cursor: pointer; z-index: 1;
+}
+
+.visible { opacity: 1 !important; transform: translateY(-50%) !important; }
+.visible-simple { opacity: 1 !important; transform: none !important; }
+
 audio { display: none; }
 </style>
 </head>
 <body>
 
-<div id="mosaic"></div>
-<div id="overlay"></div>
-<div id="hearts-bg"></div>
-
-<!-- LIGHTBOX -->
+<!-- LIGHTBOX FOTO -->
 <div id="lightbox">
   <span id="lightbox-close">✕</span>
   <img id="lightbox-img" src="" alt="">
 </div>
 
-<!-- TELA 1: CARTA -->
+<!-- VIDEO MODAL -->
+<div id="video-modal">
+  <span id="video-modal-close">✕</span>
+  <video id="modal-video" controls>
+    <source src="video.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- TELA 1: CARTA INICIAL -->
 <div id="screen-carta">
   <div class="carta-box">
     <h2>Uma Carta Para Você 💌</h2>
@@ -322,85 +476,120 @@ audio { display: none; }
       Meu amor,<br><br>
       Desde o momento em que nos conhecemos, meu mundo ficou mais bonito,
       mais leve e mais feliz. Esse site é um presente para te lembrar o quanto
-      você é importante para mim. Cada detalhe foi feito com carinho,
-      pensando em você. ❤️
+      você é importante para mim. Cada detalhe foi feito com carinho, pensando em você. ❤️
     </p>
     <button class="btn-abrir" id="btn-abrir">▶&nbsp; Abrir minha surpresa</button>
   </div>
 </div>
 
-<!-- TELA 2: PRINCIPAL -->
-<div id="screen-main">
-  <p class="badge" id="el-badge">💖 Nossa história</p>
-  <h1 class="main-title" id="el-title">Eu te amo,<br>Carol.</h1>
-  <p class="main-desc" id="el-desc">
-    Você é tudo pra mim. Cada foto aqui guarda um momento especial que vivemos juntos.
-  </p>
+<!-- SEÇÃO 1: HERO -->
+<div id="hero">
+  <div id="mosaic"></div>
+  <div id="hero-overlay"></div>
+  <div id="hearts-bg"></div>
 
-  <div class="counter-box" id="el-counter">
-    <div class="cnt-unit">
-      <span class="cnt-num" id="cnt-d">0</span>
-      <div class="cnt-lbl">dias</div>
+  <div id="hero-content">
+    <p class="badge" id="el-badge">💖 Nossa história</p>
+    <h1 class="main-title" id="el-title">Eu te amo,<br>Carol.</h1>
+    <p class="main-desc" id="el-desc">
+      Você é tudo pra mim. Role para baixo e veja cada momento especial que vivemos juntos.
+    </p>
+    <div class="counter-box" id="el-counter">
+      <div class="cnt-unit">
+        <span class="cnt-num" id="cnt-d">0</span>
+        <div class="cnt-lbl">dias</div>
+      </div>
+      <div class="cnt-sep">·</div>
+      <div class="cnt-unit">
+        <span class="cnt-num" id="cnt-h">00</span>
+        <div class="cnt-lbl">horas</div>
+      </div>
+      <div class="cnt-sep">·</div>
+      <div class="cnt-unit">
+        <span class="cnt-num" id="cnt-m">00</span>
+        <div class="cnt-lbl">min</div>
+      </div>
+      <div class="cnt-sep">·</div>
+      <div class="cnt-unit">
+        <span class="cnt-num" id="cnt-s">00</span>
+        <div class="cnt-lbl">seg</div>
+      </div>
     </div>
-    <div class="cnt-sep">·</div>
-    <div class="cnt-unit">
-      <span class="cnt-num" id="cnt-h">00</span>
-      <div class="cnt-lbl">horas</div>
-    </div>
-    <div class="cnt-sep">·</div>
-    <div class="cnt-unit">
-      <span class="cnt-num" id="cnt-m">00</span>
-      <div class="cnt-lbl">min</div>
-    </div>
-    <div class="cnt-sep">·</div>
-    <div class="cnt-unit">
-      <span class="cnt-num" id="cnt-s">00</span>
-      <div class="cnt-lbl">seg</div>
+    <div class="action-row" id="el-actions">
+      <button class="btn-primary" id="btn-play">▶ Tocar Música</button>
+      <button class="btn-secondary" id="btn-stop" disabled>⏹ Parar</button>
     </div>
   </div>
 
-  <div class="action-row" id="el-actions">
-    <button class="btn-primary" id="btn-play">▶ Tocar Música</button>
-    <button class="btn-secondary" id="btn-stop" disabled>⏹ Parar</button>
-  </div>
+  <!-- MINI GALERIA LATERAL -->
+  <div id="mini-gallery"></div>
 
-  <audio id="audio" loop>
-    <source src="musica.mp3" type="audio/mpeg">
-  </audio>
+  <!-- SCROLL HINT -->
+  <div class="scroll-hint" id="scroll-hint" onclick="document.getElementById('section-galeria').scrollIntoView({behavior:'smooth'})">
+    nossas memórias
+    <span class="arrow">↓</span>
+  </div>
 </div>
 
-<!-- MINI GALERIA LATERAL -->
-<div id="mini-gallery"></div>
+<!-- SEÇÃO 2: GALERIA + CARTA -->
+<div id="section-galeria">
+  <h2 class="section-title">Nossas Memórias 📸</h2>
+  <p class="section-sub">cada foto, um momento nosso</p>
+
+  <div class="photo-grid" id="photo-grid"></div>
+
+  <div class="divider"></div>
+
+  <h2 class="section-title">Uma Carta Para Você 💌</h2>
+  <p class="section-sub">com todo o meu amor</p>
+
+  <div class="carta-final">
+    <p class="carta-final-titulo">Carol,</p>
+
+    <p>
+      Carol, tudo bem? Sei que nos conhecemos há um tempo, mas cada dia eu descubro algo novo de você,
+      eu aprendo a viver com você, aprendo a te amar cada vez mais. Cada dia que passa, eu sou um ser
+      errante, como qualquer outro — posso ter errado em várias coisas na minha vida, porém eu acertei
+      em outras. E com certeza o meu maior acerto foi você.
+    </p>
+
+    <div class="citacao">
+      "Eu morreria por você sem pensar duas vezes."
+      <span>— Damon Salvatore</span>
+    </div>
+
+    <p>
+      Essa frase parece simples e metafórica, mas isso não é nem metade do que eu faria por você.
+      Eu aprendo a viver com você — podemos errar um com o outro, ficar triste um com o outro,
+      mas nunca desistir. Esse é meu maior ato de amor. Eu nunca desistiria de você.
+    </p>
+
+    <p>
+      Eu fiz esse simples site para você, para nós. Para que no futuro a gente possa ver esse site
+      e se lembrar do momento difícil que estávamos passando, porém nunca desistimos um do outro.
+    </p>
+
+    <p class="assinatura">
+      Com amor, seu namorado, seu futuro esposo<br>— Caio Reis 💖
+    </p>
+  </div>
+</div>
+
+<audio id="audio" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
 
 <script>
   const FOTOS = [
-    "amor.jpg.jpeg",
-    "foto dela 1.jpeg",
-    "foto dela 2.jpeg",
-    "foto dela 3.jpeg",
-    "foto dela 4.jpeg",
-    "foto dela 5.jpeg",
-    "foto dela 6.jpeg",
-    "foto dormindo 1.jpeg",
-    "foto dormindo 2.jpeg",
-    "foto normal 1.jpeg",
-    "foto normal 10.jpeg",
-    "foto normal 12.jpeg",
-    "foto normal 2.jpeg",
-    "foto normal 3.jpeg",
-    "foto normal 4.jpeg",
-    "foto normal 5.jpeg",
-    "foto normal 6.jpeg",
-    "foto normal 7.jpeg",
-    "foto normal 8.jpeg",
-    "foto normal 9.jpeg",
-    "foto nromal 11.jpeg",
-    "foto zoada 1.jpeg",
-    "foto zoada 2.jpeg",
-    "foto zoada 3.jpeg",
-    "foto zoada 4.jpeg",
-    "foto zoada 5.jpeg",
-    "foto.jpeg"
+    "amor.jpg.jpeg","foto dela 1.jpeg","foto dela 2.jpeg","foto dela 3.jpeg",
+    "foto dela 4.jpeg","foto dela 5.jpeg","foto dela 6.jpeg",
+    "foto dormindo 1.jpeg","foto dormindo 2.jpeg",
+    "foto normal 1.jpeg","foto normal 10.jpeg","foto normal 12.jpeg",
+    "foto normal 2.jpeg","foto normal 3.jpeg","foto normal 4.jpeg",
+    "foto normal 5.jpeg","foto normal 6.jpeg","foto normal 7.jpeg",
+    "foto normal 8.jpeg","foto normal 9.jpeg","foto nromal 11.jpeg",
+    "foto zoada 1.jpeg","foto zoada 2.jpeg","foto zoada 3.jpeg",
+    "foto zoada 4.jpeg","foto zoada 5.jpeg","foto.jpeg"
   ];
 
   function shuffle(arr) {
@@ -412,23 +601,22 @@ audio { display: none; }
     return a;
   }
 
-  // MOSAICO 8x4 = 32 células
+  // MOSAICO HERO
   const mosaic = document.getElementById('mosaic');
   const shuffled = shuffle(FOTOS);
   for (let i = 0; i < 32; i++) {
-    const foto = shuffled[i % shuffled.length];
     const div = document.createElement('div');
     div.className = 'mosaic-item';
     const img = document.createElement('img');
-    img.src = foto;
+    img.src = shuffled[i % shuffled.length];
     img.alt = '';
     div.appendChild(img);
     mosaic.appendChild(div);
   }
 
-  // MINI GALERIA LATERAL
+  // MINI GALERIA LATERAL (4 fotos + 1 vídeo)
   const miniGallery = document.getElementById('mini-gallery');
-  shuffle(FOTOS).slice(0, 5).forEach(foto => {
+  shuffle(FOTOS).slice(0, 4).forEach(foto => {
     const div = document.createElement('div');
     div.className = 'mini-thumb';
     const img = document.createElement('img');
@@ -436,6 +624,39 @@ audio { display: none; }
     div.appendChild(img);
     div.onclick = () => openLightbox(foto);
     miniGallery.appendChild(div);
+  });
+  // Vídeo na mini galeria
+  const videoThumb = document.createElement('div');
+  videoThumb.className = 'mini-thumb';
+  videoThumb.innerHTML = `<video muted><source src="video.mp4" type="video/mp4"></video><div class="play-icon">▶</div>`;
+  videoThumb.onclick = () => openVideoModal();
+  miniGallery.appendChild(videoThumb);
+
+  // GRADE DE FOTOS NA SEÇÃO 2
+  const grid = document.getElementById('photo-grid');
+  // Vídeo primeiro na grade
+  const videoItem = document.createElement('div');
+  videoItem.className = 'video-grid-item';
+  videoItem.innerHTML = `
+    <video muted loop autoplay playsinline>
+      <source src="video.mp4" type="video/mp4">
+    </video>
+    <div class="play-overlay">
+      <div class="play-btn-big">▶</div>
+      <div class="play-label">assistir</div>
+    </div>`;
+  videoItem.onclick = () => openVideoModal();
+  grid.appendChild(videoItem);
+
+  // Fotos
+  shuffle(FOTOS).forEach(foto => {
+    const div = document.createElement('div');
+    div.className = 'photo-grid-item';
+    const img = document.createElement('img');
+    img.src = foto; img.alt = '';
+    div.appendChild(img);
+    div.onclick = () => openLightbox(foto);
+    grid.appendChild(div);
   });
 
   // LIGHTBOX
@@ -448,6 +669,17 @@ audio { display: none; }
   document.getElementById('lightbox-close').onclick = e => {
     e.stopPropagation();
     document.getElementById('lightbox').classList.remove('open');
+  };
+
+  // VIDEO MODAL
+  function openVideoModal() {
+    document.getElementById('video-modal').classList.add('open');
+    document.getElementById('modal-video').play();
+  }
+  document.getElementById('video-modal-close').onclick = () => {
+    document.getElementById('video-modal').classList.remove('open');
+    document.getElementById('modal-video').pause();
+    document.getElementById('modal-video').currentTime = 0;
   };
 
   // CORAÇÕES
@@ -468,15 +700,22 @@ audio { display: none; }
   setInterval(spawnHeart, 800);
   for (let i = 0; i < 8; i++) spawnHeart();
 
-  // TRANSIÇÃO
+  // TRANSIÇÃO DE TELA
   document.getElementById('btn-abrir').onclick = () => {
     document.getElementById('screen-carta').classList.add('hide');
-    document.getElementById('screen-main').classList.add('show');
     setTimeout(() => {
-      ['el-badge','el-title','el-desc','el-counter','el-actions']
-        .forEach(id => document.getElementById(id).classList.add('visible'));
-      document.getElementById('mini-gallery').classList.add('visible');
-    }, 300);
+      document.getElementById('screen-carta').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }, 1000);
+    setTimeout(() => {
+      ['el-badge','el-title','el-desc','el-counter','el-actions','scroll-hint']
+        .forEach(id => {
+          const el = document.getElementById(id);
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        });
+      document.getElementById('mini-gallery').style.opacity = '1';
+    }, 400);
   };
 
   // CONTADOR
